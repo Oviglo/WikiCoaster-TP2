@@ -34,12 +34,22 @@
         "symfony/runtime": "7.1.*",
         "symfony/security-bundle": "7.1.*",
         "symfony/serializer": "7.1.*",
+<<<<<<< HEAD
         "symfony/string": "7.1.*",
         "symfony/translation": "7.1.*",
         "symfony/twig-bundle": "7.1.*",
         "symfony/validator": "7.1.*",
         "symfony/web-link": "7.1.*",
         "symfony/webpack-encore-bundle": "*",
+=======
+        "symfony/stimulus-bundle": "^2.21",
+        "symfony/string": "7.1.*",
+        "symfony/translation": "7.1.*",
+        "symfony/twig-bundle": "7.1.*",
+        "symfony/ux-turbo": "^2.21",
+        "symfony/validator": "7.1.*",
+        "symfony/web-link": "7.1.*",
+>>>>>>> a20f0c1 (Add webapp packages)
         "symfony/yaml": "7.1.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
