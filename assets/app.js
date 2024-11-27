@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import './styles/app.scss';
 =======
 import './bootstrap.js';
@@ -12,3 +13,6 @@ import './styles/app.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 >>>>>>> a20f0c1 (Add webapp packages)
+=======
+import './styles/app.scss';
+>>>>>>> 62dff44 (Add first page)
