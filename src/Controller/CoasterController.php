@@ -4,8 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Coaster;
 use App\Form\CoasterType;
-use Doctrine\DBAL\Driver\Mysqli\Connection;
-use Doctrine\ORM\EntityManager;
+use App\Repository\CoasterRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,12 +36,22 @@ class CoasterController extends AbstractController
             // Met à jour la base de données
             $em->flush();
 
-            return $this->redirectToRoute('app_app_index');
+            return $this->redirectToRoute('app_coaster_index');
         }
 
         // return new Response("Coaster ajouté");
         return $this->render('coaster/add.html.twig', [
             'coasterForm' => $form,
+        ]);
+    }
+
+    #[Route('/coaster/')]
+    public function index(CoasterRepository $coasterRepository): Response
+    {
+        $coasters = $coasterRepository->findAll();
+
+        return $this->render('coaster/index.html.twig', [
+            'coasters' => $coasters,
         ]);
     }
 }

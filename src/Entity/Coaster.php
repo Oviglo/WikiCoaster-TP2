@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CoasterRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CoasterRepository::class)]
 class Coaster
@@ -14,19 +15,23 @@ class Coaster
     private ?int $id = null;
 
     #[ORM\Column(length: 80)]
+    #[Assert\NotBlank()]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive()]
     private ?int $maxSpeed = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive()]
     private ?int $length = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive()]
     private ?int $maxHeight = null;
 
     #[ORM\Column]
-    private ?bool $operating = null;
+    private ?bool $operating = true;
 
     public function getId(): ?int
     {

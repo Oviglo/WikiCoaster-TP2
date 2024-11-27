@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<h1>Liste des coasters</h1>
+<a href="{{ path('app_coaster_add') }}" class="btn btn-success">Ajouter un coaster</a>
+
+{% for coaster in coasters %}
+<div class="card my-2">
+    <div class="card-body">
+        <div class="lead">{{ coaster.name }}</div>
+        <div class="infos d-flex">
+            <div class="mx-2">
+                Hauteur {{ coaster.maxHeight }}m
+            </div>
+            <div class="mx-2">
+                Longueur {{ coaster.length }}m
+            </div>
+            <div class="mx-2">
+                Vitesse max. {{ coaster.maxSpeed }}km/h
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

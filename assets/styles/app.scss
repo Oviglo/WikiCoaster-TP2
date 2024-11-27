@@ -1,1 +1,25 @@
 @import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
+main {
+    min-height: 100vh;
+}
+
+#side-menu {
+    width: 240px;
+    background: var(--bs-tertiary-bg);
+
+    .lead {
+        color: white;
+        background-color: $primary;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+#main-content {
+    background-color: var(--bs-tertiary-bg);
+    padding: 1em;
+    border-radius: var(--bs-border-radius);
+    border: var(--bs-border-color) solid 1px;
+}
+
