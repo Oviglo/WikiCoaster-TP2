@@ -19,6 +19,7 @@
                 Vitesse max. {{ coaster.maxSpeed }}km/h
             </div>
         </div>
+        <a href="{{ path('app_coaster_edit', {'id': coaster.id}) }}" class="btn btn-secondary">Modifier</a>
     </div>
 </div>
 {% endfor %}
