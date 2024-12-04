@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Country</th>
                 <th>OpeningYear</th>
@@ -18,13 +17,12 @@
         <tbody>
         {% for park in parks %}
             <tr>
-                <td>{{ park.id }}</td>
                 <td>{{ park.name }}</td>
                 <td>{{ park.country }}</td>
                 <td>{{ park.openingYear }}</td>
                 <td>
-                    <a href="{{ path('app_park_show', {'id': park.id}) }}">show</a>
-                    <a href="{{ path('app_park_edit', {'id': park.id}) }}">edit</a>
+                    <a href="{{ path('app_park_show', {'id': park.id}) }}" class="btn btn-outline-secondary">show</a>
+                    <a href="{{ path('app_park_edit', {'id': park.id}) }}" class="btn btn-secondary ms-1">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +33,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_park_new') }}">Create new</a>
+    <a href="{{ path('app_park_new') }}" class="btn btn-success">Create new</a>
 {% endblock %}

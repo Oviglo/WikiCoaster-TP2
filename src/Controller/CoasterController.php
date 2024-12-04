@@ -49,6 +49,7 @@ class CoasterController extends AbstractController
     public function index(CoasterRepository $coasterRepository): Response
     {
         $coasters = $coasterRepository->findAll();
+        //$coasterRepository = $em->getRepository(Coaster::class)->findAll();
 
         dump($coasters);
 

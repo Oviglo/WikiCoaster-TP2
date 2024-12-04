@@ -7,7 +7,11 @@
 {% for coaster in coasters %}
 <div class="card my-2">
     <div class="card-body">
-        <div class="lead">{{ coaster.name }}</div>
+        <div class="d-flex justify-content-between">
+            <div class="lead">{{ coaster.name }}</div>
+            <div>{{ coaster.park }}</div>
+        </div>
+        
         <div class="infos d-flex">
             <div class="mx-2">
                 Hauteur {{ coaster.maxHeight }}m
