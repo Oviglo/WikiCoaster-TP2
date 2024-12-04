@@ -20,6 +20,7 @@
             </div>
         </div>
         <a href="{{ path('app_coaster_edit', {'id': coaster.id}) }}" class="btn btn-secondary">Modifier</a>
+        <a href="{{ path('app_coaster_delete', {'id': coaster.id}) }}" class="btn btn-danger ms-1">Supprimer</a>
     </div>
 </div>
 {% endfor %}
