@@ -23,19 +23,26 @@ class CoasterController extends AbstractController
         Request $request
     ): Response
     {
-        $parkId = $request->get('park', '');
-        $categoryId = $request->get('category', '');
+        $parkId = (int) $request->get('park', ''); // '' en int = 0
+        $categoryId = (int) $request->get('category', '');
         $search = $request->get('search', '');
 
-        $coasters = $coasterRepository->findFiltered($parkId, $categoryId, $search);
+        $itemCount = 10;
+        $page = $request->get('p', 1); // coaster?p=2
+        $begin = ($page - 1) * $itemCount;
+
+        $coasters = $coasterRepository->findFiltered($parkId, $categoryId, $search, $begin, $itemCount);
         //$coasterRepository = $em->getRepository(Coaster::class)->findAll();
 
         dump($coasters);
+
+        $pageCount = max(ceil($coasters->count() / $itemCount), 1);
 
         return $this->render('coaster/index.html.twig', [
             'coasters' => $coasters,
             'parks' => $parkRepository->findAll(),
             'categories' => $categoryRepository->findAll(),
+            'pageCount' => $pageCount,
         ]);
     }
 

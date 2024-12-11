@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Intl\Countries;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CoasterType extends AbstractType
@@ -27,7 +28,7 @@ class CoasterType extends AbstractType
                 'class' => Park::class,
                 'required' => false,
                 'group_by' => function(Park $entity) {
-                    return $entity->getCountry();
+                    return Countries::getName($entity->getCountry(), 'Fr_fr');
                 }
             ])
             ->add('categories', EntityType::class, [
