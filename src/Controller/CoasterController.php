@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Coaster;
 use App\Form\CoasterType;
+use App\Repository\CategoryRepository;
 use App\Repository\CoasterRepository;
+use App\Repository\ParkRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +15,30 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CoasterController extends AbstractController
 {
+    #[Route('/coaster/')]
+    public function index(
+        CoasterRepository $coasterRepository,
+        ParkRepository $parkRepository,
+        CategoryRepository $categoryRepository,
+        Request $request
+    ): Response
+    {
+        $parkId = $request->get('park', '');
+        $categoryId = $request->get('category', '');
+        $search = $request->get('search', '');
+
+        $coasters = $coasterRepository->findFiltered($parkId, $categoryId, $search);
+        //$coasterRepository = $em->getRepository(Coaster::class)->findAll();
+
+        dump($coasters);
+
+        return $this->render('coaster/index.html.twig', [
+            'coasters' => $coasters,
+            'parks' => $parkRepository->findAll(),
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+
     #[Route(path: 'coaster/add')]
     public function add(EntityManagerInterface $em, Request $request): Response
     {
@@ -42,19 +68,6 @@ class CoasterController extends AbstractController
         // return new Response("Coaster ajouté");
         return $this->render('coaster/add.html.twig', [
             'coasterForm' => $form,
-        ]);
-    }
-
-    #[Route('/coaster/')]
-    public function index(CoasterRepository $coasterRepository): Response
-    {
-        $coasters = $coasterRepository->findAll();
-        //$coasterRepository = $em->getRepository(Coaster::class)->findAll();
-
-        dump($coasters);
-
-        return $this->render('coaster/index.html.twig', [
-            'coasters' => $coasters,
         ]);
     }
 

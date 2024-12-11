@@ -11,6 +11,7 @@
                 <th>Name</th>
                 <th>Country</th>
                 <th>OpeningYear</th>
+                <th>Nb. Coasters</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <td>{{ park.name }}</td>
                 <td>{{ park.country }}</td>
                 <td>{{ park.openingYear }}</td>
+                <td>{{ park.coasters|length }}</td>
                 <td>
                     <a href="{{ path('app_park_show', {'id': park.id}) }}" class="btn btn-outline-secondary">show</a>
                     <a href="{{ path('app_park_edit', {'id': park.id}) }}" class="btn btn-secondary ms-1">edit</a>

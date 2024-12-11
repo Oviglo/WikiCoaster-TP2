@@ -2,14 +2,40 @@
 
 {% block body %}
 <h1>Liste des coasters</h1>
-<a href="{{ path('app_coaster_add') }}" class="btn btn-success">Ajouter un coaster</a>
+<div class="d-flex justify-content-between flex-wrap">
+    <a href="{{ path('app_coaster_add') }}" class="btn btn-success">Ajouter un coaster</a>
 
+    <form action="" method="get" class="d-flex">
+        <input type="search" name="search" class="form-control" placeholder="Rechercher..." value="{{ app.request.get('search') }}">
+        <select name="park" class="form-select ms-1">
+            <option value="">Tous les parcs</option>
+            {% for park in parks %}
+            <option value="{{ park.id }}" {% if park.id == app.request.get('park') %}selected{% endif %} >{{ park.name }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="category" class="form-select ms-1">
+            <option value="">Toutes les catégories</option>
+            {% for cat in categories %}
+            <option value="{{ cat.id }}"{% if cat.id == app.request.get('category') %}selected{% endif %}>{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn btn-outline-primary ms-1">Filtrer</button>
+    </form>
+</div>
 {% for coaster in coasters %}
 <div class="card my-2">
     <div class="card-body">
         <div class="d-flex justify-content-between">
             <div class="lead">{{ coaster.name }}</div>
             <div>{{ coaster.park }}</div>
+        </div>
+
+        <div class="categories my-2">
+            {% for cat in coaster.categories %}
+            <span class="badge" style="background-color:{{ cat.color }}">{{ cat }}</span>
+            {% endfor %}
         </div>
         
         <div class="infos d-flex">
