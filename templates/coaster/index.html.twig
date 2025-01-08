@@ -3,7 +3,9 @@
 {% block body %}
 <h1>Liste des coasters</h1>
 <div class="d-flex justify-content-between flex-wrap">
+    {% if is_granted('ROLE_USER') %}
     <a href="{{ path('app_coaster_add') }}" class="btn btn-success">Ajouter un coaster</a>
+    {% endif %}
 
     <form action="" method="get" class="d-flex">
         <input type="search" name="search" class="form-control" placeholder="Rechercher..." value="{{ app.request.get('search') }}">

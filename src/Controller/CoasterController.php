@@ -7,11 +7,13 @@ use App\Form\CoasterType;
 use App\Repository\CategoryRepository;
 use App\Repository\CoasterRepository;
 use App\Repository\ParkRepository;
+use App\Security\Voter\CoasterVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CoasterController extends AbstractController
 {
@@ -47,9 +49,13 @@ class CoasterController extends AbstractController
     }
 
     #[Route(path: 'coaster/add')]
+    #[IsGranted('ROLE_USER')]
     public function add(EntityManagerInterface $em, Request $request): Response
     {
+        $user = $this->getUser();
+
         $coaster = new Coaster();
+        $coaster->setAuthor($user);
         /*$coaster->setName('Blue Fire')
             ->setLength(1056)
             ->setMaxSpeed(100)
@@ -79,9 +85,12 @@ class CoasterController extends AbstractController
     }
 
     #[Route('/coaster/{id}/edit')]
+    #[IsGranted('ROLE_USER')]
     public function edit(Coaster $coaster, Request $request, EntityManagerInterface $em): Response
     {
-        dump($coaster);
+        $this->denyAccessUnlessGranted(CoasterVoter::EDIT, $coaster);
+        
+        //dump($coaster);
         $form = $this->createForm(CoasterType::class, $coaster);
 
         // Envois des données POST
@@ -101,6 +110,7 @@ class CoasterController extends AbstractController
     }
 
     #[Route('/coaster/{id}/delete')]
+    #[IsGranted('ROLE_USER')]
     public function delete(Coaster $coaster, Request $request, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid(

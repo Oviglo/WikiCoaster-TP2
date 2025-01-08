@@ -13,9 +13,23 @@
         {% endblock %}
     </head>
     <body>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">Wiki Coaster</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                  <a href="{{ path('app_register') }}" class="btn btn-primary mx-1">Créer un compte</a>
+                  <a href="{{ path('app_login') }}" class="btn btn-secondary mx-1">S'identifier</a>
+                </div>
+              </div>
+            </div>
+        </nav>
         <main class="d-flex flex-nowrap">
             <div class="d-flex flex-column flex-shrink-0 shadow" id="side-menu">
-                <div class="lead">Wiki Coaster</div>
+                <div class="lead">Menu</div>
                 {# Main menu #}
                 <!-- Comment HTML -->
                 <nav class="nav flex-column">
