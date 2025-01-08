@@ -25,7 +25,7 @@ class CoasterController extends AbstractController
     {
         $parkId = (int) $request->get('park', ''); // '' en int = 0
         $categoryId = (int) $request->get('category', '');
-        $search = $request->get('search', '');
+        $search = (string) $request->get('search', '');
 
         $itemCount = 10;
         $page = $request->get('p', 1); // coaster?p=2
