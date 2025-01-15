@@ -51,8 +51,10 @@
                 Vitesse max. {{ coaster.maxSpeed }}km/h
             </div>
         </div>
-        <a href="{{ path('app_coaster_edit', {'id': coaster.id}) }}" class="btn btn-secondary">Modifier</a>
-        <a href="{{ path('app_coaster_delete', {'id': coaster.id}) }}" class="btn btn-danger ms-1">Supprimer</a>
+        {% if is_granted('EDIT', coaster) %}
+            <a href="{{ path('app_coaster_edit', {'id': coaster.id}) }}" class="btn btn-secondary">Modifier</a>
+            <a href="{{ path('app_coaster_delete', {'id': coaster.id}) }}" class="btn btn-danger ms-1">Supprimer</a>
+        {% endif %}
     </div>
 </div>
 {% endfor %}

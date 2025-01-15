@@ -38,6 +38,10 @@ class Coaster
     #[ORM\ManyToOne(inversedBy: 'coasters')]
     private ?Park $park = null;
 
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $published = false;
+
     /**
      * @var Collection<int, Category>
      */
@@ -163,5 +167,19 @@ class Coaster
         $this->author = $author;
 
         return $this;
+    }
+
+    public function setPublished(?bool $published): static
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->published ?? false;
+
+        // return !empty($this->published) && $this->published ? true : false;
     }
 }

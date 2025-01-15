@@ -6,13 +6,17 @@ use App\Entity\Coaster;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<Coaster>
  */
 class CoasterRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly Security $security
+    )
     {
         parent::__construct($registry, Coaster::class);
     }
@@ -51,6 +55,12 @@ class CoasterRepository extends ServiceEntityRepository
             ;
 
             // $qb->andWhere('c.name LIKE :search')
+        }
+
+        if (!$this->security->isGranted('ROLE_ADMIN')) {
+            $qb->andWhere('c.published = true OR c.author = :author')
+                ->setParameter('author', $this->security->getUser())
+            ;
         }
 
         return new Paginator($qb->getQuery());
