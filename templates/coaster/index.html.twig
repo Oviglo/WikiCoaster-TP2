@@ -27,34 +27,43 @@
     </form>
 </div>
 {% for coaster in coasters %}
-<div class="card my-2">
-    <div class="card-body">
-        <div class="d-flex justify-content-between">
-            <div class="lead">{{ coaster.name }}</div>
-            <div>{{ coaster.park }}</div>
+<div class="card my-2 {% if not coaster.published %}bg-danger-subtle{% endif %}">
+    <div class="row g-0">
+        <div class="col-md-3">
+            {% if coaster.imageFileName is not empty %}
+                <img src="{{ asset('/uploads/' ~ coaster.imageFileName) }}" class="img-fluid rounded-start" alt="...">
+            {% endif %}
         </div>
+        <div class="col-md-9">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div class="lead">{{ coaster.name }}</div>
+                    <div>{{ coaster.park }}</div>
+                </div>
 
-        <div class="categories my-2">
-            {% for cat in coaster.categories %}
-            <span class="badge" style="background-color:{{ cat.color }}">{{ cat }}</span>
-            {% endfor %}
-        </div>
-        
-        <div class="infos d-flex">
-            <div class="mx-2">
-                Hauteur {{ coaster.maxHeight }}m
-            </div>
-            <div class="mx-2">
-                Longueur {{ coaster.length }}m
-            </div>
-            <div class="mx-2">
-                Vitesse max. {{ coaster.maxSpeed }}km/h
-            </div>
-        </div>
-        {% if is_granted('EDIT', coaster) %}
-            <a href="{{ path('app_coaster_edit', {'id': coaster.id}) }}" class="btn btn-secondary">Modifier</a>
-            <a href="{{ path('app_coaster_delete', {'id': coaster.id}) }}" class="btn btn-danger ms-1">Supprimer</a>
-        {% endif %}
+                <div class="categories my-2">
+                    {% for cat in coaster.categories %}
+                    <span class="badge" style="background-color:{{ cat.color }}">{{ cat }}</span>
+                    {% endfor %}
+                </div>
+                
+                <div class="infos d-flex">
+                    <div class="mx-2">
+                        Hauteur {{ coaster.maxHeight }}m
+                    </div>
+                    <div class="mx-2">
+                        Longueur {{ coaster.length }}m
+                    </div>
+                    <div class="mx-2">
+                        Vitesse max. {{ coaster.maxSpeed }}km/h
+                    </div>
+                </div>
+                {% if is_granted('EDIT', coaster) %}
+                    <a href="{{ path('app_coaster_edit', {'id': coaster.id}) }}" class="btn btn-secondary">Modifier</a>
+                    <a href="{{ path('app_coaster_delete', {'id': coaster.id}) }}" class="btn btn-danger ms-1">Supprimer</a>
+                {% endif %}
+            </div> <!-- \.card-body -->
+        </div> <!-- col-md-9 -->
     </div>
 </div>
 {% endfor %}

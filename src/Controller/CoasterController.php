@@ -8,6 +8,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\CoasterRepository;
 use App\Repository\ParkRepository;
 use App\Security\Voter\CoasterVoter;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,7 +51,11 @@ class CoasterController extends AbstractController
 
     #[Route(path: 'coaster/add')]
     #[IsGranted('ROLE_USER')]
-    public function add(EntityManagerInterface $em, Request $request): Response
+    public function add(
+        EntityManagerInterface $em,
+        Request $request,
+        FileUploader $fileUploader
+    ): Response
     {
         $user = $this->getUser();
 
@@ -69,6 +74,13 @@ class CoasterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Retourne la donnée du champ "image"
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $fileName = $fileUploader->upload($imageFile);
+                $coaster->setImageFileName($fileName);
+            }
+
             // Envoi de l'entité dans le gestionnaire Doctrine
             $em->persist($coaster);
 
@@ -86,7 +98,12 @@ class CoasterController extends AbstractController
 
     #[Route('/coaster/{id}/edit')]
     #[IsGranted('ROLE_USER')]
-    public function edit(Coaster $coaster, Request $request, EntityManagerInterface $em): Response
+    public function edit(
+        Coaster $coaster,
+        Request $request,
+        EntityManagerInterface $em,
+        FileUploader $fileUploader
+    ): Response
     {
         $this->denyAccessUnlessGranted(CoasterVoter::EDIT, $coaster);
         
@@ -97,7 +114,12 @@ class CoasterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            // Retourne la donnée du champ "image"
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $fileName = $fileUploader->upload($imageFile);
+                $coaster->setImageFileName($fileName);
+            }
             // Met à jour la base de données
             $em->flush();
 

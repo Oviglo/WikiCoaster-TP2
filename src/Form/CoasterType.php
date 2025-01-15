@@ -8,10 +8,12 @@ use App\Entity\Park;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Validator\Constraints\Image;
 
 class CoasterType extends AbstractType
 {
@@ -46,6 +48,22 @@ class CoasterType extends AbstractType
                         ->orderBy('c.name', 'ASC')
                     ;
                 }
+            ])
+
+            // ->add('imageFileName')
+            ->add('image', FileType::class, [
+                'label' => 'Photo du coaster',
+                'help' => 'Fichier image d\'au moins 800x600',
+                'mapped' => false, // Ne pas appeler la méthode getImage de l'entité Coaster
+                'required' => false,
+                'constraints' => [
+                    // Symfony\Component\Validator\Constraints\Image
+                    new Image(
+                        maxSize: '2M',
+                        minWidth: 800,
+                        minHeight: 600,
+                    ),
+                ]
             ])
         ;
 

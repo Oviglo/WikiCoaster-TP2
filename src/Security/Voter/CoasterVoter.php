@@ -47,7 +47,7 @@ final class CoasterVoter extends Voter
         // $roles = $user->getRoles();
 
         return match ($attribute) {
-            self::EDIT => $subject->getAuthor() == $user || $this->authorizationChecker->isGranted('ROLE_ADMIN'),
+            self::EDIT => ($user !== null && $subject->getAuthor() == $user) || $this->authorizationChecker->isGranted('ROLE_ADMIN'),
             self::VIEW => true,
             default => false,
         };

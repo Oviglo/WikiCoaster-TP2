@@ -38,7 +38,6 @@ class Coaster
     #[ORM\ManyToOne(inversedBy: 'coasters')]
     private ?Park $park = null;
 
-
     #[ORM\Column(nullable: true)]
     private ?bool $published = false;
 
@@ -50,6 +49,9 @@ class Coaster
 
     #[ORM\ManyToOne(inversedBy: 'coasters')]
     private ?User $author = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageFileName = null;
 
     public function __construct()
     {
@@ -181,5 +183,17 @@ class Coaster
         return $this->published ?? false;
 
         // return !empty($this->published) && $this->published ? true : false;
+    }
+
+    public function getImageFileName(): ?string
+    {
+        return $this->imageFileName;
+    }
+
+    public function setImageFileName(?string $imageFileName): static
+    {
+        $this->imageFileName = $imageFileName;
+
+        return $this;
     }
 }
