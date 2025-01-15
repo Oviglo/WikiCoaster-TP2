@@ -21,8 +21,12 @@
               </button>
               <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav ms-auto">
+                {% if is_granted('ROLE_USER') %}
+                    <a href="{{ path('app_logout') }}" class="btn btn-secondary mx-1"></a>
+                {% else %}
                   <a href="{{ path('app_register') }}" class="btn btn-primary mx-1">Créer un compte</a>
                   <a href="{{ path('app_login') }}" class="btn btn-secondary mx-1">S'identifier</a>
+                {% endif %}
                 </div>
               </div>
             </div>
