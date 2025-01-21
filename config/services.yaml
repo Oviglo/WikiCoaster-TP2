@@ -22,3 +22,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # le service FileUploaderInterface va pointer sur un objet LocalFileUploader
+    App\Service\FileUploaderInterface:
+        class: App\Service\LocalFileUploader

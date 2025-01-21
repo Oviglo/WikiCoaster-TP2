@@ -190,6 +190,12 @@ class Coaster
         return $this->imageFileName;
     }
 
+    public function getAbsoluteImageFileName(): string
+    {
+        // __DIR__ retourne le lien absolu vers le dossier de ce fichier 
+        return __DIR__.'/../../public/uploads/'.$this->imageFileName;
+    }
+
     public function setImageFileName(?string $imageFileName): static
     {
         $this->imageFileName = $imageFileName;

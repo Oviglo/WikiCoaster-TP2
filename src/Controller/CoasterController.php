@@ -8,7 +8,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\CoasterRepository;
 use App\Repository\ParkRepository;
 use App\Security\Voter\CoasterVoter;
-use App\Service\FileUploader;
+use App\Service\FileUploaderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,7 +54,7 @@ class CoasterController extends AbstractController
     public function add(
         EntityManagerInterface $em,
         Request $request,
-        FileUploader $fileUploader
+        FileUploaderInterface $fileUploader
     ): Response
     {
         $user = $this->getUser();
@@ -102,7 +102,7 @@ class CoasterController extends AbstractController
         Coaster $coaster,
         Request $request,
         EntityManagerInterface $em,
-        FileUploader $fileUploader
+        FileUploaderInterface $fileUploader
     ): Response
     {
         $this->denyAccessUnlessGranted(CoasterVoter::EDIT, $coaster);
@@ -117,6 +117,10 @@ class CoasterController extends AbstractController
             // Retourne la donnée du champ "image"
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
+                if ($coaster->getImageFileName()) {
+                    $fileUploader->remove($coaster->getAbsoluteImageFileName());
+                }
+
                 $fileName = $fileUploader->upload($imageFile);
                 $coaster->setImageFileName($fileName);
             }
@@ -133,12 +137,16 @@ class CoasterController extends AbstractController
 
     #[Route('/coaster/{id}/delete')]
     #[IsGranted('ROLE_USER')]
-    public function delete(Coaster $coaster, Request $request, EntityManagerInterface $em): Response
+    public function delete(Coaster $coaster, Request $request, EntityManagerInterface $em, FileUploaderInterface $fileUploader): Response
     {
         if ($this->isCsrfTokenValid(
             'delete'.$coaster->getId(),
             $request->request->get('_token')
         )) {
+            if ($coaster->getImageFileName()) {
+                $fileUploader->remove($coaster->getAbsoluteImageFileName());
+            }
+
             $em->remove($coaster);
             $em->flush();
         

@@ -5,7 +5,7 @@ namespace App\Service;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class FileUploader
+class LocalFileUploader implements FileUploaderInterface
 {
     public function __construct(
         #[Autowire('%kernel.project_dir%/public/uploads')]
@@ -19,5 +19,12 @@ class FileUploader
         $file->move($this->uploadFolder, $fileName);
 
         return $fileName;
+    }
+
+    public function remove(string $path): void
+    {
+        if (file_exists($path)) {
+            unlink($path); // Supprime le fichier
+        }
     }
 }
