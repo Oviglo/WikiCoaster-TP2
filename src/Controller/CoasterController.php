@@ -37,7 +37,7 @@ class CoasterController extends AbstractController
         $coasters = $coasterRepository->findFiltered($parkId, $categoryId, $search, $begin, $itemCount);
         //$coasterRepository = $em->getRepository(Coaster::class)->findAll();
 
-        dump($coasters);
+        // dump($coasters);
 
         $pageCount = max(ceil($coasters->count() / $itemCount), 1);
 
